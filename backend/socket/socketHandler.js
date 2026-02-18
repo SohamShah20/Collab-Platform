@@ -21,6 +21,7 @@ module.exports = function socketHandler(io) {
     })
 
     socket.on("save-document", async (documentId, content) => {
+      console.log(`Saving document ${documentId}`);
       await Document.findByIdAndUpdate(documentId, { content })
       // Optional: Emit saved status back to client
       // socket.emit("document-saved") 

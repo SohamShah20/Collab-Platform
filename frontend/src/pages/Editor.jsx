@@ -13,12 +13,15 @@ export default function Editor() {
 
     // Ensure socket listeners are set up correctly
     const loadHandler = (content) => {
+      console.log("Loading document content:", content);
       if (quillRef.current) {
-        quillRef.current.getEditor().setContents(content)
+        // Use clipboard to paste HTML content from DB
+        quillRef.current.getEditor().clipboard.dangerouslyPasteHTML(content);
       }
     }
 
     const changeHandler = (delta) => {
+      console.log("Receiving changes:", delta);
       if (quillRef.current) {
         quillRef.current.getEditor().updateContents(delta)
       }

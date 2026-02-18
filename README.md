@@ -57,7 +57,7 @@ A full-stack real-time collaboration platform where multiple users can create, e
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone [https://github.com/SohamShah20/Collab-Platform](https://github.com/SohamShah20/Collab-Platform)
+git clone (https://github.com/SohamShah20/Collab-Platform)
 cd Collab-Platfor
 
 2️⃣ Backend Setup

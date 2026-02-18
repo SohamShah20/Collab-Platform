@@ -1,45 +1,33 @@
-module.exports = function socketHandler(io) {
-  io.use((socket, next) => {
-    next()
-  })
+const Document = require("../models/Document")
 
+module.exports = function socketHandler(io) {
   io.on("connection", (socket) => {
     console.log(`✓ Client connected: ${socket.id}`)
 
-    const clientCount = io.engine.clientsCount
-    console.log(`  Total clients connected: ${clientCount}`)
+    socket.on("join-document", async (documentId) => {
+      socket.join(documentId)
+      console.log(`User ${socket.id} joined document ${documentId}`)
 
-    io.emit("user-joined", {
-      userId: socket.id,
-      totalUsers: clientCount,
-      message: "A new user connected"
+      // Load document from DB
+      const document = await Document.findById(documentId)
+      if (document) {
+        socket.emit("load-document", document.content)
+      }
     })
 
-    socket.on("message", (data) => {
-      console.log(`Message from ${socket.id}:`, data)
+    socket.on("send-changes", (documentId, delta) => {
+      // Broadcast changes to everyone else in the room
+      socket.broadcast.to(documentId).emit("receive-changes", delta)
+    })
 
-      io.emit("message", {
-        userId: socket.id,
-        content: data.content,
-        timestamp: new Date()
-      })
+    socket.on("save-document", async (documentId, content) => {
+      await Document.findByIdAndUpdate(documentId, { content })
+      // Optional: Emit saved status back to client
+      // socket.emit("document-saved") 
     })
 
     socket.on("disconnect", () => {
       console.log(`✗ Client disconnected: ${socket.id}`)
-
-      const updatedClientCount = io.engine.clientsCount
-      console.log(`  Total clients connected: ${updatedClientCount}`)
-
-      io.emit("user-left", {
-        userId: socket.id,
-        totalUsers: updatedClientCount,
-        message: "A user disconnected"
-      })
-    })
-
-    socket.on("error", (error) => {
-      console.error(`Socket error for ${socket.id}:`, error)
     })
   })
 }

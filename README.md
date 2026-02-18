@@ -3,6 +3,9 @@
 A full-stack real-time collaboration platform where multiple users can create, edit, and manage shared documents simultaneously — similar to Google Docs (Lite version).
 
 ---
+## 🎥 Live Demo
+
+[View Live Demo](https://drive.google.com/file/d/1x10nYVlhUvz7De1Em7AFuarnImw4tG2u/view?usp=drive_link)
 
 ## 🌟 Features
 
@@ -92,5 +95,5 @@ http://localhost:5173
 
 ## 🎥 Live Demo
 
-[View Live Demo](https://your-live-demo-url.com)
+[View Live Demo](https://drive.google.com/file/d/1x10nYVlhUvz7De1Em7AFuarnImw4tG2u/view?usp=drive_link)
 
